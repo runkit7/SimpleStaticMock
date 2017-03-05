@@ -1,0 +1,19 @@
+{
+    "license": "Apache-2.0",
+    "description": "A simple class to replace static methods for unit tests.",
+    "keywords": ["mocks", "testing", "simplestaticmock", "runkit", "runkit7"],
+    "type":    "library",
+    "require": {
+        "php": ">= 7.0",
+        "ext-runkit": ">=1.0.5a2"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "~6.0"
+    },
+    "autoload": {
+        "psr-4": {"SimpleStaticMock\\": "src/SimpleStaticMock"}
+    },
+    "autoload-dev": {
+        "psr-4": {"SimpleStaticMock\\Tests\\": "tests"}
+    }
+}
