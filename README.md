@@ -6,6 +6,8 @@ SimpleStaticMock
 A simple PHP framework for mocking static methods in unit tests (and recording those calls).
 This requires the [runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7).
 
+[![Build Status](https://travis-ci.org/runkit7/SimpleStaticMock.svg?branch=master)](https://travis-ci.org/runkit7/SimpleStaticMock)
+
 ## Authors
 
 Tyson Andre, various Ifwe employees.
