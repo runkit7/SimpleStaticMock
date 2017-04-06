@@ -138,13 +138,13 @@ class SimpleStaticMock {
         // Used to have problems mocking methods with static variables in them.
         // Seems to work now (new version of runkit) so the code checking for that has been removed.
 
-        if (!runkit_method_copy($this->_className, $this->_overrideName, $this->_className, $this->_methodName)) {
+        if (!\runkit_method_copy($this->_className, $this->_overrideName, $this->_className, $this->_methodName)) {
             throw new \RuntimeException($method . ' runkit_method_copy mock');
 		}
-        if (!runkit_method_remove($this->_className, $this->_methodName)) {
+        if (!\runkit_method_remove($this->_className, $this->_methodName)) {
             throw new \RuntimeException($method . ' runkit_method_remove mock');
 		}
-        if (!runkit_method_add($this->_className, $this->_methodName, $function->getParameters(), $body, $flags)) {
+        if (!\runkit_method_add($this->_className, $this->_methodName, $function->getParameters(), $body, $flags)) {
             throw new \RuntimeException($method . ' runkit_method_add mock');
 		}
 
@@ -162,11 +162,11 @@ class SimpleStaticMock {
         $method = $this->_classAndMethod();
         if ($this->_isMocked) {
             // echo "Unmock $method\n";
-            if (!runkit_method_remove($this->_className, $this->_methodName))
+            if (!\runkit_method_remove($this->_className, $this->_methodName))
                 trigger_error($method . ' runkit_method_remove1 unmock');
-            if (!runkit_method_copy($this->_className, $this->_methodName, $this->_className, $this->_overrideName))
+            if (!\runkit_method_copy($this->_className, $this->_methodName, $this->_className, $this->_overrideName))
                 trigger_error($method . ' runkit_method_copy unmock');
-            if (!runkit_method_remove($this->_className, $this->_overrideName))
+            if (!\runkit_method_remove($this->_className, $this->_overrideName))
                 trigger_error($method . ' runkit_method_remove2 unmock');
             $this->_isMocked = false;
             self::$_counts[$method] = [];
