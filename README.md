@@ -14,8 +14,9 @@ Tyson Andre, various Ifwe employees.
 
 ## Requirements
 
-- PHP version 7.0 or greater
-- [runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7) must be installed and enabled.
+- PHP version 7.0 or greater (also supports php 7.1 and 7.2-dev)
+- [The runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7) must be installed and enabled.
+  Version 1.0.5a5 or greater is recommended.
 - runkit must be enabled in your php.ini settings (`extension=runkit.so)
 
 ## License
@@ -84,7 +85,7 @@ See [tests/SimpleStaticMockTest.php](tests/SimpleStaticMockTest.php) for more ex
 
 -----
 
-README.md: Copyright 2016 Ifwe Inc.
+README.md: Copyright 2017 Ifwe Inc.
 
 README.md is licensed under a Creative Commons Attribution-ShareAlike 4.0 International License.
 
