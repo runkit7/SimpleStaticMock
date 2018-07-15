@@ -19,7 +19,8 @@ namespace SimpleStaticMock;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MockUtils {
+class MockUtils
+{
     /**
      * Converts an array of ReflectionParameter objects to a valid PHP string for a method/function declaration.
      * Note: this aims to be generic enough be used outside of SimpleStaticMock.
@@ -28,7 +29,8 @@ class MockUtils {
      * @param bool $useName - Whether to use the actual names or just $arg1, $arg2, etc.
      * @return string - comma separated representation of parameter list.
      */
-    public static function params_to_string(array $params, bool $useName = false) : string {
+    public static function params_to_string(array $params, bool $useName = false) : string
+    {
         $defparams = [];
         $i = 0;
         foreach ($params as $parameter) {
@@ -55,11 +57,12 @@ class MockUtils {
     }
 
 
-	/**
+    /**
      * @param null|\ReflectionType $type
      * @return string - The type, converted to a string that can be used in php code for params or return type declarations.
      */
-    public static function reflection_type_to_declaration($type) : string {
+    public static function reflection_type_to_declaration($type) : string
+    {
         if (!$type) {
             return '';
         }

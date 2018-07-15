@@ -23,18 +23,21 @@ use \SimpleStaticMock\SimpleStaticMock;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class SimpleStaticMockTest extends TestCase {
-	public function tearDown() {
-		parent::tearDown();
+class SimpleStaticMockTest extends TestCase
+{
+    public function tearDown()
+    {
+        parent::tearDown();
         // All of the phpunit tests using SimpleStaticMock should call unmock_all after each test case, in tearDown()
         // Otherwise, this will cause unexpected results in other test cases/test suites.
-		SimpleStaticMock::unmock_all();
-	}
+        SimpleStaticMock::unmock_all();
+    }
 
     /**
      * By providing a non-Closure value to SimpleStaticMock, you can make that static method return that value.
      */
-    public function testMockStaticFunction() {
+    public function testMockStaticFunction()
+    {
         $oldValue = \SimpleStaticMock\Tests\dummy::publicStaticFunction();
         $overriddenValue = 'overridden';
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', $overriddenValue);
@@ -49,10 +52,11 @@ class SimpleStaticMockTest extends TestCase {
     /**
      * By providing a Closure value to SimpleStaticMock, you can make that static method return the value a Closure would return.
      */
-    public function testMockStaticFunctionWithClosure() {
+    public function testMockStaticFunctionWithClosure()
+    {
         $oldValue = \SimpleStaticMock\Tests\dummy::publicStaticFunction();
         $overriddenValue = 'overridden';
-        $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', function() use ($overriddenValue) {
+        $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', function () use ($overriddenValue) {
             return $overriddenValue . ' by closure';
         });
         $value = \SimpleStaticMock\Tests\dummy::publicStaticFunction();
@@ -65,12 +69,14 @@ class SimpleStaticMockTest extends TestCase {
     /**
      * SimpleStaticMock tracks the total number of calls to a given function
      */
-    public function testNumCalls() {
+    public function testNumCalls()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'nate is awesome');
 
         $i = $calls = rand(1, 50);
-        while($i--)
+        while ($i--) {
             \SimpleStaticMock\Tests\dummy::publicStaticFunction();
+        }
 
         $this->assertSame($calls, $staticMock->numCalls());
         $staticMock->unmock();
@@ -79,7 +85,8 @@ class SimpleStaticMockTest extends TestCase {
     /**
      * SimpleStaticMock has helper methods to check if a function was called certain numbers of times.
      */
-    public function testCalledOnce() {
+    public function testCalledOnce()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'barrett is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction();
@@ -87,7 +94,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertTrue($staticMock->calledOnce());
     }
 
-    public function testCalledTwice() {
+    public function testCalledTwice()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'barrett is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction();
@@ -96,7 +104,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertFalse($staticMock->calledOnce());
     }
 
-    public function testCalledZeroTimes() {
+    public function testCalledZeroTimes()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'barrett is awesome');
         $this->assertFalse($staticMock->calledOnce());
     }
@@ -104,7 +113,8 @@ class SimpleStaticMockTest extends TestCase {
     /**
      * SimpleStaticMock has helper methods calledOnceWithParams to check if a function was called certain numbers of times.
      */
-    public function testCalledOnceWithParams() {
+    public function testCalledOnceWithParams()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'barrett is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction('param1', array('param2'));
@@ -112,7 +122,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertTrue($staticMock->calledOnceWithParams('param1', array('param2')));
     }
 
-    public function testCalledOnceWithBadParams() {
+    public function testCalledOnceWithBadParams()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'barrett is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction('param1', array('param2'));
@@ -123,7 +134,8 @@ class SimpleStaticMockTest extends TestCase {
     /**
      * SimpleStaticMock has a method argumentsCalledWith, which returns all of the (serialized then unserialized) arguments that it was called with.
      */
-    public function testArgumentsCalledWith() {
+    public function testArgumentsCalledWith()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction('param1', array('param2'));
@@ -131,7 +143,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertSame(array(array('param1', array('param2'))), $staticMock->argumentsCalledWith());
     }
 
-    public function testArgumentsCalledWithMultipleTimes() {
+    public function testArgumentsCalledWithMultipleTimes()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction('param1');
@@ -141,7 +154,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertSame([['param1'], ['param2'], ['param3']], $staticMock->argumentsCalledWith());
     }
 
-    public function testArgumentsCalledWithScalar() {
+    public function testArgumentsCalledWithScalar()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction(4);
@@ -149,14 +163,16 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertSame([[4]], $staticMock->argumentsCalledWith());
     }
 
-    public function testArgumentsCalledWithNotCalled() {
+    public function testArgumentsCalledWithNotCalled()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         // nothing called
         $this->assertSame([], $staticMock->argumentsCalledWith());
     }
 
-    public function testFirstArgumentsCalledWith() {
+    public function testFirstArgumentsCalledWith()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         \SimpleStaticMock\Tests\dummy::publicStaticFunction('param1');
@@ -165,7 +181,8 @@ class SimpleStaticMockTest extends TestCase {
         $this->assertSame(['param1'], $staticMock->firstArgumentsCalledWith());
     }
 
-    public function testFirstArgumentsCalledWithNotCalled() {
+    public function testFirstArgumentsCalledWithNotCalled()
+    {
         $staticMock = new SimpleStaticMock('\SimpleStaticMock\Tests\dummy', 'publicStaticFunction', 'testing your test framework is awesome');
 
         // nothing called

@@ -22,7 +22,8 @@ namespace SimpleStaticMock;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class MockFunction {
+class MockFunction
+{
     /**
      * @var int set of flags
      * e.g. public static (see ReflectionMethod for flag constants)
@@ -62,7 +63,8 @@ class MockFunction {
      *        Until php 7.0.15, there was a bug in the garbage collector that caused those references to stay around.
      *        As a result, this class and its subclasses were rewritten to avoid keeping a reference to $function in the properties.
      */
-    public function __construct($function, string $rename = null) {
+    public function __construct($function, string $rename = null)
+    {
         if ($function instanceof \Closure) {
             $function = new \ReflectionFunction($function);
         }
@@ -89,8 +91,9 @@ class MockFunction {
     /**
      * @return void
      */
-    private function _setName(string $name) {
-        $this->_head = preg_replace('/^function(\s+\w+|\s+(&)\s*\w+|\s*)/', 'function $2'.$name, $this->_head);
+    private function _setName(string $name)
+    {
+        $this->_head = preg_replace('/^function(\s+\w+|\s+(&)\s*\w+|\s*)/', 'function $2' . $name, $this->_head);
     }
 
     /**
@@ -98,7 +101,8 @@ class MockFunction {
      *
      * @return string
      */
-    public function getName() : string {
+    public function getName() : string
+    {
         if (preg_match('/^function\s+(&\s*)?(\w+)/', $this->_head, $matches)) {
             return $matches[2];
         } else {
@@ -111,7 +115,8 @@ class MockFunction {
      *
      * @return string
      */
-    public function getParameters() : string {
+    public function getParameters() : string
+    {
         $start = strpos($this->_head, '(') + 1;
         $end   = strrpos($this->_head, ')');
         return substr($this->_head, $start, $end - $start);
@@ -121,14 +126,16 @@ class MockFunction {
      * @return void
      * adds code to set up _mockUse to the body.
      */
-    public function ensureSetsMockUse() {
+    public function ensureSetsMockUse()
+    {
         $this->_setsMockUse = true;
     }
 
     /**
      * Returns the function body (all text between '{' and '}', exclusive).
      */
-    public function getBody() : string {
+    public function getBody() : string
+    {
         $prefix = '';
         if ($this->_setsMockUse) {
             $prefix = '    $this->_setInstanceMockUse();' . "\n";
@@ -136,23 +143,28 @@ class MockFunction {
         return $prefix . $this->_prepended . $this->_use . $this->_body;
     }
 
-    public function isPublic() : bool {
+    public function isPublic() : bool
+    {
         return (bool)($this->modifiers & \ReflectionMethod::IS_PUBLIC);
     }
 
-    public function isProtected() : bool {
+    public function isProtected() : bool
+    {
         return (bool)($this->modifiers & \ReflectionMethod::IS_PROTECTED);
     }
 
-    public function isPrivate() : bool {
+    public function isPrivate() : bool
+    {
         return (bool)($this->modifiers & \ReflectionMethod::IS_PRIVATE);
     }
 
-    public function isStatic() : bool {
+    public function isStatic() : bool
+    {
         return (bool)($this->modifiers & \ReflectionMethod::IS_STATIC);
     }
 
-    public function isFinal() : bool {
+    public function isFinal() : bool
+    {
         return (bool)($this->modifiers & \ReflectionMethod::IS_FINAL);
     }
 
@@ -160,8 +172,9 @@ class MockFunction {
      * Prepend the given PHP code to the PHP code this class will generate.
      * @return void
      */
-    public function prepend(string $prefix) {
-        $this->_prepended = "    " . $prefix. "\n" . $this->_prepended;
+    public function prepend(string $prefix)
+    {
+        $this->_prepended = "    " . $prefix . "\n" . $this->_prepended;
     }
 
     /**
@@ -170,7 +183,8 @@ class MockFunction {
      * @param string|array $search
      * @param string|array $replace
      */
-    public function str_replace($search, $replace) {
+    public function str_replace($search, $replace)
+    {
         $this->_body = str_replace($search, $replace, $this->_body);
     }
 
@@ -179,7 +193,8 @@ class MockFunction {
      *
      * @return string
      */
-    public function __toString() {
+    public function __toString()
+    {
         return $this->_head . "{\n" . $this->getBody() . "}\n";
     }
 
@@ -187,7 +202,8 @@ class MockFunction {
      * @return string[] the variables used in this function (E.g. ["&$a"])
      * This is overridden in subclasses.
      */
-    protected function _extractUseVars() : array {
+    protected function _extractUseVars() : array
+    {
         // find the 'use' construct
         if (!preg_match('/\buse\s*\(([^)]*)\)\s*(:\s*[\w\\\\]+\s*)?$/', $this->_head, $matches, PREG_OFFSET_CAPTURE)) {
             return [];
@@ -211,7 +227,8 @@ class MockFunction {
      * @return array [string => mixed] mapping names of static variables to their values.
      * This is overridden in subclasses.
      */
-    protected function _getStaticVariables(\ReflectionFunctionAbstract $function) : array {
+    protected function _getStaticVariables(\ReflectionFunctionAbstract $function) : array
+    {
         return $function->getStaticVariables();
     }
 
@@ -245,9 +262,10 @@ class MockFunction {
      *      return $fakeData[$data];
      *  }
      *  @param array - The static variables of this function.
-	 *  @return void
+     *  @return void
      */
-    private function _parseUseClause(array $staticVars) {
+    private function _parseUseClause(array $staticVars)
+    {
         $vars = $this->_extractUseVars();
         if (count($vars) == 0) {
             return;
@@ -264,7 +282,8 @@ class MockFunction {
     /**
      * @unused - future releases of SimpleStaticMock may check the return types match up with the original by default.
      */
-    public function makeReturnTypeCompatibleWithOriginal(\ReflectionFunctionAbstract $function) {
+    public function makeReturnTypeCompatibleWithOriginal(\ReflectionFunctionAbstract $function)
+    {
         if (preg_match('/:\s*\??\s*([\w\\\\])+\s*$/', $this->_head)) {
             return;  // Already has a return type (E.g. taken from Closure)
         }
@@ -278,7 +297,8 @@ class MockFunction {
      * @return string|null (e.g. 'SomeClass', 'string', (in php7.1) '?int', etc.)
      * @unused - future releases of SimpleStaticMock may check the return types match up with the original by default.
      */
-    public static function get_return_type(\ReflectionFunctionAbstract $method) {
+    public static function get_return_type(\ReflectionFunctionAbstract $method)
+    {
         $type = $method->getReturnType();
         if (!is_object($type)) {
             return null;
@@ -296,10 +316,11 @@ class MockFunction {
      * @return string a PHP expression that will evaluate to a copy of $var
      *                (In subclasses, may be $var or a reference to $var)
      */
-    protected function _createUseStatement(string $var, $value) : string {
+    protected function _createUseStatement(string $var, $value) : string
+    {
         if ($var[0] === '&') {
             $var = trim(substr($var, 1));
-            trigger_error("Importing variable $var into overriding function by reference is not supported; $var will be imported by value instead.",  E_USER_WARNING);
+            trigger_error("Importing variable $var into overriding function by reference is not supported; $var will be imported by value instead.", E_USER_WARNING);
             // TODO: import this and anything with an object with a global value instead?
         }
         // Build the use statement
@@ -318,7 +339,8 @@ class MockFunction {
      * @param \ReflectionFunctionAbstract $function
      * @return string the source code.
      */
-    public static function get_function_source(\ReflectionFunctionAbstract $function) {
+    public static function get_function_source(\ReflectionFunctionAbstract $function)
+    {
         static $fileCache = [];
 
         // NOTE: caching file calls reduces i/o greatly when multiple functions are being parsed from the same file

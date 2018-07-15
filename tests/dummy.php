@@ -1,5 +1,6 @@
 <?php
 namespace SimpleStaticMock\Tests;
+
 /**
  * Dummy class for testing SimpleStaticMock
  *
@@ -18,7 +19,8 @@ namespace SimpleStaticMock\Tests;
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-class dummy {
+class dummy
+{
     const MY_CONST = 'DUMMY';
     public $publicParam;
     private $_userId;
@@ -28,7 +30,8 @@ class dummy {
 
     public $getcalled;
 
-    function __construct($userId = 'none', $param2 = 'none2') {
+    function __construct($userId = 'none', $param2 = 'none2')
+    {
         $this->_userId = 'dummy' . $userId;
         $this->_param2 = 'dummy' . $param2;
 
@@ -38,8 +41,9 @@ class dummy {
         $this->some = 'defaultsome';
     }
 
-    public function __get($key) {
-        switch($key) {
+    public function __get($key)
+    {
+        switch ($key) {
             case 'testget1':
                 $this->getcalled = 'dummy' . 'yes';
                 return 'dummy' . 'yestestget1';
@@ -52,15 +56,17 @@ class dummy {
         return 'unknownget';
     }
 
-    public function __set($key, $value) {
-        switch($key) {
+    public function __set($key, $value)
+    {
+        switch ($key) {
             case 'testset1':
                 $this->$key = $value;
         }
     }
 
-    public function __call($method, $args) {
-        switch($method) {
+    public function __call($method, $args)
+    {
+        switch ($method) {
             case 'testcall1':
                 return 'testcall1';
             case 'testcall2':
@@ -77,81 +83,100 @@ class dummy {
         return 'unknowncall';
     }
 
-    public static function _X_create_object($userId, $param2 = null) {
+    public static function _X_create_object($userId, $param2 = null)
+    {
         return new dummy($userId, $param2);
     }
 
-    public function publicGetPublicParam() {
+    public function publicGetPublicParam()
+    {
         return $this->publicParam;
     }
 
-    public function publicGetPrivateParam() {
+    public function publicGetPrivateParam()
+    {
         return $this->_userId;
     }
 
-    public function publicGetPrivateParam2() {
+    public function publicGetPrivateParam2()
+    {
         return $this->_param2;
     }
 
-    public function publicFunction() {
+    public function publicFunction()
+    {
         return 'dummy' . 'publicFunction';
     }
 
-    public function publicFunctionCallPrivateFunction() {
+    public function publicFunctionCallPrivateFunction()
+    {
         return $this->privateFunction();
     }
 
-    private function privateFunction() {
+    private function privateFunction()
+    {
         return 'dummy' . 'privateFunction';
     }
 
-    public function publicFunctionCrossCall() {
+    public function publicFunctionCrossCall()
+    {
         return 'dummy' . 'publicFunctionCrossCall';
     }
 
-    public function privateFunctionCall() {
+    public function privateFunctionCall()
+    {
         return $this->testcall1();
     }
 
-    public function publicFunctionPassArgByReference(&$array) {
+    public function publicFunctionPassArgByReference(&$array)
+    {
         array_unshift($array, 'a');
     }
 
-    public function publicFunctionCallPrivateFunctionPassArgByReference() {
+    public function publicFunctionCallPrivateFunctionPassArgByReference()
+    {
         $array = array('a');
         $this->privateFunctionPassArgByReference($array);
         return $array;
     }
 
-    private function privateFunctionPassArgByReference(&$array) {
+    private function privateFunctionPassArgByReference(&$array)
+    {
         array_unshift($array, 'b');
     }
 
-    public function getMyConst() {
+    public function getMyConst()
+    {
         return self::MY_CONST;
     }
 
-    public function getPublicStaticFunction() {
+    public function getPublicStaticFunction()
+    {
         return self::publicStaticFunction();
     }
 
-    public static function publicStaticFunction() {
+    public static function publicStaticFunction()
+    {
         return 'dummy' . 'publicStaticFunction';
     }
 
-    public function typeHintArg(dummy $dummy) {
+    public function typeHintArg(dummy $dummy)
+    {
         return $dummy->publicFunction();
     }
 
-    public function varargsFunction(...$args) {
+    public function varargsFunction(...$args)
+    {
         return $args;
     }
 
-    public function returnTypeFunction($a, $b) : array {
+    public function returnTypeFunction($a, $b) : array
+    {
         return [$a, $b];
     }
 
-    public function varargsScalarFunction(int ...$args) : int {
+    public function varargsScalarFunction(int ...$args) : int
+    {
         return array_sum($args);
     }
 }
