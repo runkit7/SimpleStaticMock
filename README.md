@@ -4,7 +4,7 @@ SimpleStaticMock
 ## Overview
 
 A simple PHP framework for mocking static methods in unit tests (and recording those calls).
-This requires the [runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7).
+This requires the [runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7) (also available [on PECL](https://pecl.php.net/package/runkit7)).
 
 [![Build Status](https://travis-ci.org/runkit7/SimpleStaticMock.svg?branch=master)](https://travis-ci.org/runkit7/SimpleStaticMock)
 
@@ -14,10 +14,10 @@ Tyson Andre, various Ifwe employees.
 
 ## Requirements
 
-- PHP version 7.0 or greater (also supports php 7.1 and 7.2-dev)
+- PHP version 7.0-7.3
 - [The runkit7/runkit7 fork of runkit](https://github.com/runkit7/runkit7) must be installed and enabled.
-  Version 1.0.5a5 or greater is recommended.
-- runkit must be enabled in your php.ini settings (`extension=runkit.so)
+  Version 2 or 3 is recommended.
+- runkit must be enabled in your php.ini settings (`extension=runkit.so`)
 
 ## License
 
