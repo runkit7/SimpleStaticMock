@@ -192,7 +192,6 @@ return [
 
     // A list of files to include in analysis
     'file_list' => [
-        // 'vendor/phpunit/phpunit/src/Framework/TestCase.php',
     ],
 
     // A file list that defines files that will be excluded
@@ -216,7 +215,6 @@ return [
     // your application should be included in this list.
     'directory_list' => [
         'src',
-        'vendor',
     ],
 
     // List of case-insensitive file extensions supported by Phan.
@@ -235,7 +233,6 @@ return [
     //       should be added to the `directory_list` as
     //       to `exclude_analysis_directory_list`.
     "exclude_analysis_directory_list" => [
-        'vendor',
     ],
 
     // A list of plugin files to execute

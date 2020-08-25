@@ -59,7 +59,7 @@ class MockFunction
 
     /**
      * @param \Closure|\ReflectionFunctionAbstract $function (ReflectionFunction or ReflectionMethod)
-     *        NOTE: PLAT-2090: Runkit was extremely slow if we keep references to objects around for long.
+     *        NOTE: Runkit7 was extremely slow if we keep references to objects around for long.
      *        Until php 7.0.15, there was a bug in the garbage collector that caused those references to stay around.
      *        As a result, this class and its subclasses were rewritten to avoid keeping a reference to $function in the properties.
      */
@@ -251,7 +251,7 @@ class MockFunction
      *      2 => array('value' => 4000),
      *  );
      *
-     * and the new runkit-redefined method my_class::get_data (the X's represent some sequence of digits)
+     * and the new runkit7-redefined method my_class::get_data (the X's represent some sequence of digits)
      * would be defined as the the following function:
      *
      *  public function getData($id) {
@@ -261,7 +261,7 @@ class MockFunction
      *      );
      *      return $fakeData[$data];
      *  }
-     *  @param array - The static variables of this function.
+     *  @param array $staticVars - The static variables of this function.
      *  @return void
      */
     private function _parseUseClause(array $staticVars)
